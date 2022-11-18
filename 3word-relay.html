@@ -12,12 +12,44 @@
     <input type="text">
     <button>입력</button>
     <script>
+        const $word = document.querySelector('#word');
+        const $input = document.querySelector('input');
+        const $button = document.querySelector('button');
+        const $order = document.querySelector('#order');
+
+        let word;3
+        let newWord;
+
         const people = parseInt(prompt('몇 명이 참가하나요?')); // 1. 참가 인원 입력받기
         alert(people) // 2. 입력받은 명수를 확인시켜준다.
         const yesOrNo = confirm('맞다면 확인, 아니면 취소를 눌려주세요.')
 
         if (yesOrNo == true) { // 2-1. 확인을 누를 시 ,진행
-            
+            const onClickButton = () => {// 3. 제시어를 입력받고, 버튼 클릭 시
+                if (!word || (newWord.length == 3 && word[word.length - 1] === newWord[0])) {
+                    // 4. 제시어가 비어있거나 3글자이고 제시어의 마지막 글자와 입력 값의 첫 글자가 같은지 확인
+                    word = newWord; 
+                    $word.textContent = word;
+                    console.log(word);
+                    const order = Number($order.textContent)
+                    if (order + 1 > people) { // 5. 현재 순서가 총 인원보다 클 시
+                        $order.textContent = 1
+                    } else { // 5. 현재 순서가 총 인원보다 작을 시 
+                        $order.textContent = order + 1
+                    }
+                } else { // 6. 게임을 종료
+                    alert('틀렸습니다.')
+                };
+                $input.value = '';
+                $input.focus()
+            };
+
+            const onInput = (event) => {
+                newWord = event.target.value;
+            };
+
+            $button.addEventListener('click', onClickButton);
+            $input.addEventListener('input', onInput);
         } else { // 2-2. 취소를 누를 시, 창 끄기
             window.close()
         }
